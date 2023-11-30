@@ -2,180 +2,180 @@
 
 ## Note: Ensure your MongoDB is hosted on MongoDB Atlas.
 
-### 1.1 Create an AWS Account and Launch EC2 Instance
+### 1. Create an AWS Account and Launch EC2 Instance
 
-1. Create an account with [AWS](https://aws.amazon.com/) and navigate to the EC2 dashboard.
+1.1. Create an account with [AWS](https://aws.amazon.com/) and navigate to the EC2 dashboard.
 
-2. Launch an instance:
+1.2. Launch an instance:
 
+1.3. Give your instance a name and select "Ubuntu" as the Amazon Machine Image (AMI).
 
-3. Give your instance a name and select "Ubuntu" as the Amazon Machine Image (AMI).
+1.4. Create a Key Pair and download the `.pem` file to a designated folder for key pair files.
 
-4. Create a Key Pair and download the `.pem` file to a designated folder for key pair files.
+1.5. Configure security groups to allow SSH, HTTP, and HTTPS traffic.
 
-5. Configure security groups to allow SSH, HTTP, and HTTPS traffic.
+1.6. Set the Root volume to gp3 and configure additional settings if needed.
 
-6. Set the Root volume to gp3 and configure additional settings if needed.
+1.7. Launch the instance.
 
-7. Launch the instance.
+1.8. Navigate to the Instances dashboard to ensure your instance is running.
 
-8. Navigate to the Instances dashboard to ensure your instance is running.
+### 2. Allocate and Associate Elastic IP
 
-### 1.2 Allocate and Associate Elastic IP
+2.1. In the sidebar, go to "Network and Security" and click on "Elastic IPs."
 
-9. In the sidebar, go to "Network and Security" and click on "Elastic IPs."
-
-10. Allocate Elastic IP address:
+2.2. Allocate Elastic IP address:
  ```
  Actions > Allocate Elastic IP address
  ```
 
-11. Add a new tag (Key: name, Value: ... EIP).
+2.3. Add a new tag (Key: name, Value: ... EIP).
 
-12. Select the allocated EIP, click on "Actions," and then "Associate Elastic IP address."
+2.4. Select the allocated EIP, click on "Actions," and then "Associate Elastic IP address."
 
-13. In the associate EIP dialog, select the instance from the drop-down and click "Associate."
+2.5. In the associate EIP dialog, select the instance from the drop-down and click "Associate."
 
-14. Confirm that the instance's public IP now reflects the EIP.
+2.6. Confirm that the instance's public IP now reflects the EIP.
 
-### 1.3 Connect to the Instance
+### 3. Connect to the Instance
 
-15. Click on the instance in the dashboard, then click "Connect."
+3.1. Click on the instance in the dashboard, then click "Connect."
 
-16. In your terminal, navigate to the folder containing the key pair files:
+3.2. In your terminal, navigate to the folder containing the key pair files:
  ```
  cd <folder_of_key_pair_files>
  ```
 
-17. Set appropriate permissions for the `.pem` file:
+3.3. Set appropriate permissions for the `.pem` file:
  ```
  chmod 400 <key.pem>
  ```
 
-18. Copy the example command provided in the AWS console and run:
+3.4. Copy the example command provided in the AWS console and run:
  ```
  ssh -i <key.pem> ubuntu@<ip-address> -v
  ```
 
-### 1.4 Update and Upgrade Linux Machine and Install Node and NVM
+### 4. Update and Upgrade Linux Machine, Install Node and NVM and project installation
 
-19. Update and upgrade the Linux machine and install necessary tools:
+4.1. Update and upgrade the Linux machine and install necessary tools:
  ```bash
  sudo apt update
  sudo apt upgrade
  sudo apt install -y git htop wget
  ```
 
-20. Install Node using NVM:
+4.2. Install Node using NVM:
  ```bash
  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
  # or
  wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
  ```
 
-21. Set up NVM environment variables:
+4.3. Set up NVM environment variables:
  ```bash
  export NVM_DIR="$HOME/.nvm"
  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
  ```
 
-22. Verify that NVM has been installed:
+4.4. Verify that NVM has been installed:
  ```bash
  nvm --version
  ```
 
-23. Install the latest LTS version of Node:
+4.5. Install the latest LTS version of Node:
  ```bash
  nvm install --lts
  ```
 
-24. Check the Node version:
+4.6. Check the Node version:
  ```bash
  node --version
  ```
 
-25. Clone your Node.js server repository:
+4.7. Clone your Node.js server repository:
  ```bash
  cd /home/ubuntu
  git clone https://github.com/your-repository
  ```
 
-26. Change into the repository directory:
+4.8. Change into the repository directory:
  ```bash
  cd /home/ubuntu/your-repository
  ```
 
-27. If there is a `.env` file needed, run:
+4.9. If there is a `.env` file needed, run:
  ```bash
  nano .env
  ```
 
-28. Paste the content of the .env into the file, then press Ctrl+X, followed by Ctrl+Y, and Enter.
+4.10. Paste the content of the .env into the file, then press Ctrl+X, followed by Ctrl+Y, and Enter.
 
-29. Install project dependencies:
+4.11. Install project dependencies:
  ```bash
  npm install
  ```
 
-30. Run the server:
+4.12. Run the server:
  ```bash
  npm start
 #or
 npm run dev whatever it is
  ```
 
-31. In AWS, go to "Network & Security" and click on "Security Groups."
+4.13. In AWS, go to "Network & Security" and click on "Security Groups."
 
-32. Select the most recent launch-wizard, click on "Inbound Rules," and then "Edit Inbound Rules."
+4.14. Select the most recent launch-wizard, click on "Inbound Rules," and then "Edit Inbound Rules."
 
-33. Add a rule for your localhost port (e.g., 3000) and set the source to "anywhere." Save the rules.
+4.15. Add a rule for your localhost port (e.g., 3000) and set the source to "anywhere." Save the rules.
 
-34. Go to "Instances," copy the public IP (which is also the EIP), and paste it in your browser's search bar with the port (e.g., `public_IP:3000`). Your server should be running.
+4.16. Go to "Instances," copy the public IP (which is also the EIP), and paste it in your browser's search bar with the port (e.g., `public_IP:3000`). Your server should be running.
 
-35. Install PM2:
+4.17. Install PM2:
  ```bash
  npm install -g pm2
  ```
 
-36. Start the app with PM2 (run Node.js in the background and auto-restart on server restart):
+4.18. Start the app with PM2 (run Node.js in the background and auto-restart on server restart):
  ```bash
  pm2 start index.js //In your backend folder
  pm2 save
  ```
 
-37. If you want PM2 to start on system boot, run:
+4.19. If you want PM2 to start on system boot, run:
  ```bash
  pm2 startup
  ```
+### 5. Nginx and CertBot
 
-38. Install Nginx:
+5.1. Install Nginx:
  ```bash
  sudo apt install nginx
  ```
 
-39. Assuming you have the build folder in your frontend, run:
+5.2. Assuming you have the build folder in your frontend, run:
  ```bash
  cd /var/www/
  mkdir microclient # May require sudo
  sudo chown -R ubuntu microclient/
  ```
 
-40. Copy the build folder into the `microclient` folder:
+5.3. Copy the build folder into the `microclient` folder:
  ```bash
  sudo cp -R ~/your-repository/pathTo/build/* /var/www/microclient
  ```
 
-41. Edit the Nginx configuration file:
+5.4. Edit the Nginx configuration file:
  ```bash
  sudo nano /etc/nginx/sites-available/default
  ```
 
-42. Change `root /var/www;` to `root /var/www/microclient;`.
+5.5. Change `root /var/www;` to `root /var/www/microclient;`.
 
-43. Set the `server_name` to your domain (e.g., example.com www.example.com).
+5.6. Set the `server_name` to your domain (e.g., example.com www.example.com).
 
-44. Add a location block for API proxy:
+5.7. Add a location block for API proxy:
  ```nginx
  location /api {
      proxy_pass http://localhost:3000; #Your backend server localhost
@@ -187,20 +187,20 @@ npm run dev whatever it is
  }
  ```
 
-45. Save the changes by pressing Ctrl+X, followed by Ctrl+Y, and then Enter.
+5.8. Save the changes by pressing Ctrl+X, followed by Ctrl+Y, and then Enter.
 
-46. Run
+5.9. Run
  ```bash
  sudo service nginx restart
  ```
 
-47. Go to Namecheap's DNS settings for your domain, add two records with the hosts set to `www` and `@`, the IP sections set to your public IPv4 in AWS (EIP).
+5.10. Go to Namecheap's DNS settings for your domain, add two records with the hosts set to `www` and `@`, the IP sections set to your public IPv4 in AWS (EIP).
 
-48. Visit your domain (e.g., example.com or www.example.com), and everything should be running.
+5.11. Visit your domain (e.g., example.com or www.example.com), and everything should be running.
 
 At this point, your application is running over HTTP. The next steps will cover setting up HTTPS.
 
-49. To make your site secure run
+5.12. To make your site secure run
 ```bash
 sudo certbot --nginx -d example.com -d www.example.com
 ```
