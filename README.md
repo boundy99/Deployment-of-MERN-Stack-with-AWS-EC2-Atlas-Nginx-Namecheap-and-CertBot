@@ -187,12 +187,7 @@ npm run dev whatever it is
  }
  ```
 
-45. Below the `location /` location block, add:
- ```nginx
- location / {
-     try_files $uri $uri /index.html;
- }
- ```
+45. So far so good I hope hahahahha
 
 46. Save the changes by pressing Ctrl+X, followed by Y, and then Enter.
 
