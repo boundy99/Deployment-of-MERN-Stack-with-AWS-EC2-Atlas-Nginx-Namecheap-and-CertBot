@@ -187,9 +187,12 @@ npm run dev whatever it is
  }
  ```
 
-45. So far so good I hope hahahahha
+45. Save the changes by pressing Ctrl+X, followed by Ctrl+Y, and then Enter.
 
-46. Save the changes by pressing Ctrl+X, followed by Y, and then Enter.
+46. Run
+ ```bash
+ sudo service nginx restart
+ ```
 
 47. Go to Namecheap's DNS settings for your domain, add a record with the host set to `www` and the IP to your public IPv4 in AWS (EIP).
 
