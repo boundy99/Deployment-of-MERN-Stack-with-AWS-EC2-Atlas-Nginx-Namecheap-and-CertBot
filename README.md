@@ -1,6 +1,6 @@
 # Deploying a MERN Stack App on AWS with MongoDB Atlas, Nginx, Namecheap, and Certbot
 
-## Step 1: AWS Instance Creation
+## Note: Ensure your MongoDB is hosted on MongoDB Atlas.
 
 ### 1.1 Create an AWS Account and Launch EC2 Instance
 
@@ -194,14 +194,13 @@ npm run dev whatever it is
  sudo service nginx restart
  ```
 
-47. Go to Namecheap's DNS settings for your domain, add a record with the host set to `www` and the IP to your public IPv4 in AWS (EIP).
+47. Go to Namecheap's DNS settings for your domain, add two records with the hosts set to `www` and `@`, the IP sections set to your public IPv4 in AWS (EIP).
 
-48. Visit your domain (e.g., example.com), and everything should be running.
-
-49. Ensure your MongoDB is hosted on MongoDB Atlas.
+48. Visit your domain (e.g., example.com or www.example.com), and everything should be running.
 
 At this point, your application is running over HTTP. The next steps will cover setting up HTTPS.
 
----
-
-Continue to the next sections for configuring HTTPS with Certbot.
+49. To make your site secure run
+```bash
+sudo certbot --nginx -d example.com -d www.example.com
+```
