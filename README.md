@@ -1,10 +1,10 @@
 # Deploying a MERN Stack App on AWS with MongoDB Atlas, Nginx, Namecheap, and Certbot
 
-#### Note 1: Ensure that your MongoDB is hosted on MongoDB Atlas.
+#### <ins>Note 1</ins>: Ensure that your MongoDB is hosted on MongoDB Atlas.
 
-#### Note 2: In your package.son the build command should have GENERATE_SOURCEMAP=false and run the build command
+#### <ins>Note 2</ins>: In your package.son the build command should have GENERATE_SOURCEMAP=false and run the build command
 
-#### Note 2: If your React app uses an environmnent variable, because the build folder will need it make sure to create an .env.production.local which should contain the same information as your .env.development.local
+#### <ins>Note 3</ins>: If your React app uses an environmnent variable, because the build folder will need it make sure to create an .env.production.local which should contain the same information as your .env.development.local
 
 ```bash
 "scripts": {
