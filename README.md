@@ -2,7 +2,7 @@
 
 #### Note 1: Ensure that your MongoDB is hosted on MongoDB Atlas.
 
-#### Note 2: In your package.son the build command should have GENERATE_SOURCEMAP=false
+#### Note 2: In your package.son the build command should have GENERATE_SOURCEMAP=false and run the build command
 
 ```bash
 "scripts": {
@@ -145,10 +145,9 @@ npm run dev whatever it is
  npm install -g pm2
  ```
 
-4.18. Start the app with PM2 (run Node.js and the React App in the background and auto-restart on server restart):
+4.18. Start the app with PM2 (run Node.js in the background and auto-restart on server restart):
  ```bash
  pm2 start index.js &&  pm2 save //In your backend folder
- pm2 start app.config.json &&  pm2 save//In your frontend folder
  ```
 
 4.19. If you want PM2 to start on system boot, run:
@@ -161,26 +160,32 @@ npm run dev whatever it is
  ```bash
  sudo apt install nginx
  ```
+
+5.2 Run the following commands
+```bash
+cd /var/www/client/
+#then
+sudo mkdir microclient
+#then
+sudo cp -r ~/your-repository/path-to-the-build-folder  /var/www/microclient
+```
+
 5.2. Edit the Nginx configuration file:
  ```bash
  sudo nano /etc/nginx/sites-available/default
  ```
 
-5.3. Set the `server_name` to your domain (e.g., example.com www.example.com).
+5.3. Set the `server_name` to your domain (e.g., example.com www.example.com) and the root path.
 ```bash
+root /var/www/microclient;
 server_name example.com www.example.com;
 ```
 
-5.4. Add a location block for API proxy:
+5.4. Add a location block for API proxy and change the / location blocl:
  ```bash
-location / {
-        proxy_pass http://localhost:<port_number>; //Your frontend server localhost
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-        }
+location /api {
+try $uri $uri /index.html
+}
 
  location /api {
      proxy_pass http://localhost:<port_number>; //Your backend server localhost
