@@ -10,21 +10,6 @@
     },
 ```
 
-#### Note 3: Your react app should have a app.config.json
-app.config.json which should contain the following
-```bash
-{
-    "apps": [
-      {
-        "name": "react-app",
-        "script": "npx",
-        "interpreter": "none",
-        "args": "serve -s build -p <port_number>"
-      }
-    ]
-}
-```
-
 ### 1. Create an AWS Account and Launch EC2 Instance
 
 1.1. Create an account with [AWS](https://aws.amazon.com/) and navigate to the EC2 dashboard.
