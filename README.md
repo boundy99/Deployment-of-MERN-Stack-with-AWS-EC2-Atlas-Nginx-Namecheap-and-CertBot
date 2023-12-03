@@ -184,7 +184,7 @@ server_name example.com www.example.com;
 5.4. Add a location block for API proxy and change the / location blocl:
  ```bash
 location /api {
-try $uri $uri /index.html
+try_files $uri $uri/ /index.html;
 }
 
  location /api {
