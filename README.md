@@ -1,6 +1,29 @@
 # Deploying a MERN Stack App on AWS with MongoDB Atlas, Nginx, Namecheap, and Certbot
 
-## Note: Ensure your MongoDB is hosted on MongoDB Atlas.
+## Note 1: Ensure your MongoDB is hosted on MongoDB Atlas.
+
+##Note 2: In your package.son the build command should have GENERATE_SOURCEMAP=false
+
+```bash
+"scripts": {
+        "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    },
+```
+
+##Note 3: Your react app should have a app.config.json
+app.config.json which should contain the following
+```bash
+{
+  apps : [
+    {
+      name      : "react-app",
+      script    : "npx",
+      interpreter: "none",
+      args: "serve -s build -p <port_number>"
+    }
+  ]
+}
+```
 
 ### 1. Create an AWS Account and Launch EC2 Instance
 
@@ -137,10 +160,10 @@ npm run dev whatever it is
  npm install -g pm2
  ```
 
-4.18. Start the app with PM2 (run Node.js in the background and auto-restart on server restart):
+4.18. Start the app with PM2 (run Node.js and the React App in the background and auto-restart on server restart):
  ```bash
- pm2 start index.js //In your backend folder
- pm2 save
+ pm2 start index.js &&  pm2 save //In your backend folder
+ pm2 start app.config.json &&  pm2 save//In your frontend folder
  ```
 
 4.19. If you want PM2 to start on system boot, run:
@@ -153,32 +176,29 @@ npm run dev whatever it is
  ```bash
  sudo apt install nginx
  ```
-
-5.2. Assuming you have the build folder in your frontend, run:
- ```bash
- cd /var/www/
- mkdir microclient # May require sudo
- sudo chown -R ubuntu microclient/
- ```
-
-5.3. Copy the build folder into the `microclient` folder:
- ```bash
- sudo cp -R ~/your-repository/pathTo/build/* /var/www/microclient
- ```
-
-5.4. Edit the Nginx configuration file:
+5.2. Edit the Nginx configuration file:
  ```bash
  sudo nano /etc/nginx/sites-available/default
  ```
 
-5.5. Change `root /var/www;` to `root /var/www/microclient;`.
+5.3. Set the `server_name` to your domain (e.g., example.com www.example.com).
+```bash
+server_name example.com www.example.com;
+```
 
-5.6. Set the `server_name` to your domain (e.g., example.com www.example.com).
+5.4. Add a location block for API proxy:
+ ```bash
+location / {
+        proxy_pass http://localhost:<port_number>; //Your frontend server localhost
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        }
 
-5.7. Add a location block for API proxy:
- ```nginx
  location /api {
-     proxy_pass http://localhost:3000; #Your backend server localhost
+     proxy_pass http://localhost:<port_number>; //Your backend server localhost
      proxy_http_version 1.1;
      proxy_set_header Upgrade $http_upgrade;
      proxy_set_header Connection 'upgrade';
@@ -187,16 +207,16 @@ npm run dev whatever it is
  }
  ```
 
-5.8. Save the changes by pressing Ctrl+X, followed by Ctrl+Y, and then Enter.
+5.5. Save the changes by pressing Ctrl+X, followed by Ctrl+Y, and then Enter.
 
-5.9. Run
+5.6. Run
  ```bash
  sudo service nginx restart
  ```
 
-5.10. Go to Namecheap's DNS settings for your domain, add two records with the hosts set to `www` and `@`, the IP sections set to your public IPv4 in AWS (EIP).
+5.7. Go to Namecheap's DNS settings for your domain, add two records with the hosts set to `www` and `@`, the IP sections set to your public IPv4 in AWS (EIP).
 
-5.11. Visit your domain (e.g., example.com or www.example.com), and everything should be running.
+5.8. Visit your domain (e.g., example.com or www.example.com), and everything should be running.
 
 At this point, your application is running over HTTP. The next steps will cover setting up HTTPS.
 
