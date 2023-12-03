@@ -202,5 +202,7 @@ At this point, your application is running over HTTP. The next steps will cover 
 
 5.12. To make your site secure run
 ```bash
+sudo apt install certbot python3-certbot-nginx
+#then
 sudo certbot --nginx -d example.com -d www.example.com
 ```
