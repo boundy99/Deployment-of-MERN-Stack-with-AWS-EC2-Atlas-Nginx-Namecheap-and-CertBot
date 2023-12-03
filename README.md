@@ -4,6 +4,8 @@
 
 #### Note 2: In your package.son the build command should have GENERATE_SOURCEMAP=false and run the build command
 
+#### Note 2: If your React app uses an environmnent variable, because the build folder will need it make sure to create an .env.production.local which should contain the same information as your .env.development.local
+
 ```bash
 "scripts": {
         "build": "GENERATE_SOURCEMAP=false react-scripts build",
@@ -165,9 +167,9 @@ npm run dev whatever it is
 ```bash
 cd /var/www/client/
 #then
-sudo mkdir microclient
+sudo mkdir build
 #then
-sudo cp -r ~/your-repository/path-to-the-build-folder  /var/www/microclient
+sudo cp -r ~/your-repository/path-to-the-build-folder  /var/www/build
 ```
 
 5.2. Edit the Nginx configuration file:
@@ -177,7 +179,7 @@ sudo cp -r ~/your-repository/path-to-the-build-folder  /var/www/microclient
 
 5.3. Set the `server_name` to your domain (e.g., example.com www.example.com) and the root path.
 ```bash
-root /var/www/microclient;
+root /var/www/build;
 server_name example.com www.example.com;
 ```
 
