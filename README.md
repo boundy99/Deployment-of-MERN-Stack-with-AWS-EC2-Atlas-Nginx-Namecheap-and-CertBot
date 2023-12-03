@@ -14,14 +14,14 @@
 app.config.json which should contain the following
 ```bash
 {
-  apps : [
-    {
-      name      : "react-app",
-      script    : "npx",
-      interpreter: "none",
-      args: "serve -s build -p <port_number>"
-    }
-  ]
+    "apps": [
+      {
+        "name": "react-app",
+        "script": "npx",
+        "interpreter": "none",
+        "args": "serve -s build -p <port_number>"
+      }
+    ]
 }
 ```
 
