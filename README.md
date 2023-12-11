@@ -165,7 +165,7 @@ npm run dev whatever it is
 
 5.2 Run the following commands
 ```bash
-cd /var/www/client/
+cd /var/www/
 #then
 sudo mkdir build
 #then
